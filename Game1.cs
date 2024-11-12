@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 namespace Animation_in_monogame
 {
@@ -11,6 +13,7 @@ namespace Animation_in_monogame
         private SpriteBatch _spriteBatch;
 
         Rectangle window;
+        Random generator;
 
 
         Texture2D brownTribble;
@@ -31,12 +34,13 @@ namespace Animation_in_monogame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            generator = new Random();
             greyTribbleRect = new Rectangle(300, 10, 100, 100);
             window = new Rectangle(0, 0, 800, 600);
             greyTribbleSpeed = new Vector2(5, 2);
 
             brownTribbleRect = new Rectangle(100, 50, 100, 100);
-            brownTribbleSpeed = new Vector2(7, 1);
+            brownTribbleSpeed = new Vector2(3, 2);
 
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
@@ -65,10 +69,19 @@ namespace Animation_in_monogame
             if (greyTribbleRect.Right > window.Width || greyTribbleRect.Left < 0)
                 greyTribbleSpeed.X *= -1;
             greyTribbleRect.Y += (int)greyTribbleSpeed.Y;
-            if (greyTribbleRect.Top > window.Height || greyTribbleRect.Bottom < 0)
+            if (greyTribbleRect.Bottom > window.Height || greyTribbleRect.Top < 0)
                 greyTribbleSpeed.Y *= -1;
 
-            
+            brownTribbleRect.X += (int)brownTribbleSpeed.X;
+            if (brownTribbleRect.Right > window.Width || brownTribbleRect.Left > 0)
+                brownTribbleSpeed.X *= -1;
+            brownTribbleRect.Y += (int)brownTribbleSpeed.Y;
+            if (brownTribbleRect.Bottom > window.Height || brownTribbleRect.Top < 0)
+            {
+                brownTribbleRect.X *= generator.Next(0, 600);
+
+            }
+
 
             base.Update(gameTime);
         }
