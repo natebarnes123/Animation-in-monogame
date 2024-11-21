@@ -16,12 +16,10 @@ namespace Animation_in_monogame
         Random generator;
 
 
-        Texture2D brownTribble;
-        Texture2D greyTribble;
-        Rectangle greyTribbleRect;
-        Rectangle brownTribbleRect;
-        Vector2 greyTribbleSpeed;
-        Vector2 brownTribbleSpeed;
+        Texture2D brownTribble, greyTribble, creamTribble, orangeTribble;
+        Rectangle greyTribbleRect, brownTribbleRect, creamTribbleRect, orangeTribbleRect;
+        Vector2 greyTribbleSpeed, brownTribbleSpeed, creamTribbleSpeed, orangeTribbleSpeed;
+        
         public Game1()
         {
             
@@ -42,6 +40,12 @@ namespace Animation_in_monogame
             brownTribbleRect = new Rectangle(100, 50, 100, 100);
             brownTribbleSpeed = new Vector2(3, 2);
 
+            creamTribbleRect = new Rectangle(150, 200, 100, 100);
+            creamTribbleSpeed = new Vector2(4, 2);
+
+            orangeTribbleRect = new Rectangle(200, 100, 100, 100);
+            orangeTribbleSpeed = new Vector2(1, 2);
+
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
@@ -55,7 +59,8 @@ namespace Animation_in_monogame
 
             greyTribble = Content.Load<Texture2D>("tribblegrey");
             brownTribble = Content.Load<Texture2D>("tribblebrown");
-
+            orangeTribble = Content.Load<Texture2D>("tribbleorange");
+            creamTribble = Content.Load<Texture2D>("tribblecream");
             // TODO: use this.Content to load your game content here
         }
 
