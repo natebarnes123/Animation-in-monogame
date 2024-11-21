@@ -7,6 +7,11 @@ using System.Security.Cryptography;
 
 namespace Animation_in_monogame
 {
+    enum Screen
+    {
+        Intro,
+        TribbleYard
+    }
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -15,11 +20,13 @@ namespace Animation_in_monogame
         Rectangle window;
         Random generator;
 
-
+        Texture2D untitled;
         Texture2D brownTribble, greyTribble, creamTribble, orangeTribble;
         Rectangle greyTribbleRect, brownTribbleRect, creamTribbleRect, orangeTribbleRect;
         Vector2 greyTribbleSpeed, brownTribbleSpeed, creamTribbleSpeed, orangeTribbleSpeed;
-        
+
+        Screen screen;
+        MouseState mouseState;
         public Game1()
         {
             
@@ -50,6 +57,8 @@ namespace Animation_in_monogame
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
 
+            screen = Screen.Intro;
+
             base.Initialize();
         }
 
@@ -61,31 +70,43 @@ namespace Animation_in_monogame
             brownTribble = Content.Load<Texture2D>("tribblebrown");
             orangeTribble = Content.Load<Texture2D>("tribbleorange");
             creamTribble = Content.Load<Texture2D>("tribblecream");
+            untitled = Content.Load<Texture2D>("untitled");
             // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
+            mouseState = Mouse.GetState();
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            greyTribbleRect.X += (int)greyTribbleSpeed.X;
-            if (greyTribbleRect.Right > window.Width || greyTribbleRect.Left < 0)
-                greyTribbleSpeed.X *= -1;
-            greyTribbleRect.Y += (int)greyTribbleSpeed.Y;
-            if (greyTribbleRect.Bottom > window.Height || greyTribbleRect.Top < 0)
-                greyTribbleSpeed.Y *= -1;
-
-            brownTribbleRect.X += (int)brownTribbleSpeed.X;
-            if (brownTribbleRect.Right > window.Width || brownTribbleRect.Left > 0)
-                brownTribbleSpeed.X *= -1;
-            brownTribbleRect.Y += (int)brownTribbleSpeed.Y;
-            if (brownTribbleRect.Bottom > window.Height || brownTribbleRect.Top < 0)
+            if (screen == Screen.Intro)
             {
-                brownTribbleRect.X *= generator.Next(0, 600);
-
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                    screen = Screen.TribbleYard;
             }
+            else if (screen == Screen.TribbleYard)
+            {
+                // TODO: Add your update logic here
+                greyTribbleRect.X += (int)greyTribbleSpeed.X;
+                if (greyTribbleRect.Right > window.Width || greyTribbleRect.Left < 0)
+                    greyTribbleSpeed.X *= -1;
+                greyTribbleRect.Y += (int)greyTribbleSpeed.Y;
+                if (greyTribbleRect.Bottom > window.Height || greyTribbleRect.Top < 0)
+                    greyTribbleSpeed.Y *= -1;
+
+                brownTribbleRect.X += (int)brownTribbleSpeed.X;
+                if (brownTribbleRect.Right > window.Width || brownTribbleRect.Left < 0)
+                    brownTribbleSpeed.X *= -1;
+                brownTribbleRect.Y += (int)brownTribbleSpeed.Y;
+                if (brownTribbleRect.Bottom > window.Height || brownTribbleRect.Top < 0)
+                {
+                    brownTribbleRect.X = generator.Next(0, 150);
+                    brownTribbleRect.Y = generator.Next(0, 150); 
+                }
+            }
+            
 
 
             base.Update(gameTime);
@@ -98,8 +119,15 @@ namespace Animation_in_monogame
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            _spriteBatch.Draw(greyTribble, greyTribbleRect, Color.White);
-            _spriteBatch.Draw(brownTribble, brownTribbleRect, Color.White);
+            if (screen == Screen.Intro)
+            {
+                _spriteBatch.Draw(untitled, window, Color.White);
+            }
+            else if (screen == Screen.TribbleYard)
+            {
+                _spriteBatch.Draw(greyTribble, greyTribbleRect, Color.White);
+                _spriteBatch.Draw(brownTribble, brownTribbleRect, Color.White);
+            }
 
             _spriteBatch.End();
             base.Draw(gameTime);
