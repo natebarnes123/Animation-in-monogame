@@ -20,6 +20,7 @@ namespace Animation_in_monogame
         Rectangle window;
         Random generator;
 
+        
         Texture2D untitled;
         Texture2D brownTribble, greyTribble, creamTribble, orangeTribble;
         Rectangle greyTribbleRect, brownTribbleRect, creamTribbleRect, orangeTribbleRect;
@@ -51,7 +52,7 @@ namespace Animation_in_monogame
             creamTribbleSpeed = new Vector2(4, 2);
 
             orangeTribbleRect = new Rectangle(200, 100, 100, 100);
-            orangeTribbleSpeed = new Vector2(1, 2);
+            orangeTribbleSpeed = new Vector2(3, 4);
 
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
@@ -103,8 +104,25 @@ namespace Animation_in_monogame
                 if (brownTribbleRect.Bottom > window.Height || brownTribbleRect.Top < 0)
                 {
                     brownTribbleRect.X = generator.Next(0, 150);
-                    brownTribbleRect.Y = generator.Next(0, 150); 
+                    brownTribbleRect.Y = generator.Next(0, 150);
                 }
+                  
+                    orangeTribbleRect.X += (int)orangeTribbleSpeed.X;
+                    if (orangeTribbleRect.Right > window.Width || orangeTribbleRect.Left < 0)
+                       orangeTribbleSpeed.X *= -1;
+                    orangeTribbleRect.Y += (int)orangeTribbleSpeed.Y;
+                    if (orangeTribbleRect.Bottom > window.Height || orangeTribbleRect.Top < 0)
+                        orangeTribbleSpeed.Y *= -1;
+
+                creamTribbleRect.X += (int)creamTribbleSpeed.X;
+                if (creamTribbleRect.Right > window.Width || creamTribbleRect.Left < 0)
+                    creamTribbleSpeed.X *= -1;
+                    
+                creamTribbleRect.Y += (int)creamTribbleSpeed.Y;
+                if (creamTribbleRect.Bottom > window.Height || creamTribbleRect.Top < 0)
+                    creamTribbleSpeed.Y *= -1;
+
+
             }
             
 
@@ -127,6 +145,8 @@ namespace Animation_in_monogame
             {
                 _spriteBatch.Draw(greyTribble, greyTribbleRect, Color.White);
                 _spriteBatch.Draw(brownTribble, brownTribbleRect, Color.White);
+                _spriteBatch.Draw(creamTribble, creamTribbleRect, Color.White);
+                _spriteBatch.Draw(orangeTribble, orangeTribbleRect, Color.White);
             }
 
             _spriteBatch.End();
