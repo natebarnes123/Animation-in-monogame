@@ -49,10 +49,10 @@ namespace Animation_in_monogame
             brownTribbleSpeed = new Vector2(3, 2);
 
             creamTribbleRect = new Rectangle(150, 200, 100, 100);
-            creamTribbleSpeed = new Vector2(4, 2);
+            creamTribbleSpeed = new Vector2(4, 0);
 
             orangeTribbleRect = new Rectangle(200, 100, 100, 100);
-            orangeTribbleSpeed = new Vector2(3, 4);
+            orangeTribbleSpeed = new Vector2(0, 10);
 
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
